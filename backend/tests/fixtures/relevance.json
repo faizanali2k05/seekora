@@ -1,0 +1,20 @@
+[
+  {
+    "query": "robots private network response size",
+    "expected_title": "Crawler safety",
+    "documents": [
+      ["https://fixtures.local/crawler", "Crawler safety", "A responsible crawler honors robots.txt, rejects private network targets, and limits response size for every HTML fetch."],
+      ["https://fixtures.local/ranking", "Hybrid ranking", "Reciprocal rank fusion combines lexical and vector candidate lists for robust retrieval."],
+      ["https://fixtures.local/citations", "Citations", "Grounded answers cite immutable source chunks."]
+    ]
+  },
+  {
+    "query": "reciprocal rank lexical vector",
+    "expected_title": "Hybrid ranking",
+    "documents": [
+      ["https://fixtures.local/crawler", "Crawler safety", "Robots rules control polite crawling."],
+      ["https://fixtures.local/ranking", "Hybrid ranking", "Reciprocal rank fusion combines lexical retrieval and vector similarity candidates."],
+      ["https://fixtures.local/citations", "Citations", "Answers attach source references."]
+    ]
+  }
+]

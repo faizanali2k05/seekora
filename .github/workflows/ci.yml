@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: pgvector/pgvector:pg16
+        env:
+          POSTGRES_DB: seekora
+          POSTGRES_USER: seekora
+          POSTGRES_PASSWORD: seekora
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U seekora -d seekora"
+          --health-interval 5s --health-timeout 5s --health-retries 10
+      redis:
+        image: redis:7.4-alpine
+        ports: ["6379:6379"]
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 5s --health-timeout 3s --health-retries 10
+    env:
+      SEEKORA_DATABASE_URL: postgresql+psycopg://seekora:seekora@localhost:5432/seekora
+      SEEKORA_TEST_DATABASE_URL: postgresql+psycopg://seekora:seekora@localhost:5432/seekora
+      SEEKORA_REDIS_URL: redis://localhost:6379/0
+      SEEKORA_ADMIN_API_KEY: ci-only-key
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: python -m pip install -e 'backend[dev]'
+      - run: cd backend && alembic upgrade head
+      - run: cd backend && ruff check . && pytest -q
+
+  frontend-and-story:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - uses: actions/setup-node@v4
+        with: { node-version: "22", cache: npm, cache-dependency-path: frontend/package-lock.json }
+      - run: python -m venv .venv && .venv/bin/pip install -e backend
+      - run: cd frontend && npm ci && npx playwright install --with-deps chromium
+      - run: cd frontend && npm audit --audit-level=high && npm run build && npm run test:e2e

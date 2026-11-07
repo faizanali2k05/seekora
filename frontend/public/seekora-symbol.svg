@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+  <title id="title">Seekora discovery symbol</title>
+  <defs><linearGradient id="g" x1="8" y1="56" x2="56" y2="8" gradientUnits="userSpaceOnUse"><stop stop-color="#7c3cff"/><stop offset="1" stop-color="#20e7ff"/></linearGradient></defs>
+  <path d="M7 7h31l19 19v31H26L7 38Z" fill="#11101d" stroke="url(#g)" stroke-width="3"/>
+  <path d="M20 20h19l5 5v19H25l-5-5Z" fill="none" stroke="#b99cff" stroke-width="3"/>
+  <circle cx="32" cy="32" r="5" fill="#20e7ff"/>
+  <path d="m41 41 11 11" stroke="#20e7ff" stroke-width="4" stroke-linecap="square"/>
+</svg>
